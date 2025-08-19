@@ -1,0 +1,1487 @@
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY) /*application='SchoolBulletinBoard'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Create (0.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ('environment', 'development', '2025-08-06 09:45:10.549934', '2025-08-06 09:45:10.549936') RETURNING "key" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+Migrating to CreateCategories (20250806094307)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[35m (1.0ms)[0m  [1m[35mCREATE TABLE "categories" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "description" text, "color" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL) /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250806094307') RETURNING "version" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+Migrating to CreatePosts (20250806094313)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE TABLE "posts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "content" text, "author_name" varchar, "category_id" integer NOT NULL, "anonymous" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_9b1b26f040"
+FOREIGN KEY ("category_id")
+  REFERENCES "categories" ("id")
+) /*application='SchoolBulletinBoard'*/[0m
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE INDEX "index_posts_on_category_id" ON "posts" ("category_id") /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (1.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250806094313') RETURNING "version" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+Migrating to CreateComments (20250806094320)
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[35m (4.2ms)[0m  [1m[35mCREATE TABLE "comments" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "content" text, "author_name" varchar, "post_id" integer NOT NULL, "anonymous" boolean, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, CONSTRAINT "fk_rails_2fd19c0db7"
+FOREIGN KEY ("post_id")
+  REFERENCES "posts" ("id")
+) /*application='SchoolBulletinBoard'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_comments_on_post_id" ON "comments" ("post_id") /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250806094320') RETURNING "version" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '休学・留年体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '休学・留年体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.2ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('休学・留年体験談', 'なぜ休学・留年したか、どう復帰したかなど、リアルな体験談を共有しましょう。', '#dc3545', '2025-08-06 09:54:15.576619', '2025-08-06 09:54:15.576619') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (2.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '資格勉強法シェア' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (9.4ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '資格勉強法シェア' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.1ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('資格勉強法シェア', 'TOEIC、簿記、ITパスポートなどの勉強法・教材共有。独学者に役立つ情報を集めましょう。', '#28a745', '2025-08-06 09:54:15.603105', '2025-08-06 09:54:15.603105') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = 'ゼミ・研究室の実態掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = 'ゼミ・研究室の実態掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.1ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('ゼミ・研究室の実態掲示板', '雰囲気、忙しさ、教授の人柄など、学内で聞きにくい情報を共有しましょう。', '#007bff', '2025-08-06 09:54:15.620741', '2025-08-06 09:54:15.620741') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '履修相談掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '履修相談掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.0ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('履修相談掲示板', 'オススメ科目、テストの傾向など、授業選びに役立つ情報を共有しましょう。', '#ffc107', '2025-08-06 09:54:15.629210', '2025-08-06 09:54:15.629210') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.8ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '就職活動・インターン経験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '就職活動・インターン経験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.0ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('就職活動・インターン経験談', 'どこを受けたか、受かったか、落ちた理由など、正直な体験談を共有しましょう。', '#6f42c1', '2025-08-06 09:54:15.637748', '2025-08-06 09:54:15.637748') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '大学編入・大学院進学体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '大学編入・大学院進学体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.0ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('大学編入・大学院進学体験談', '編入試験、院試の過去問や対策法など、希少な情報を共有しましょう。', '#fd7e14', '2025-08-06 09:54:15.646624', '2025-08-06 09:54:15.646624') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '学習障害・発達特性×学び' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '学習障害・発達特性×学び' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.2ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('学習障害・発達特性×学び', '困りごとや支援制度の情報共有。支援者・当事者が情報交換できる場所です。', '#e83e8c', '2025-08-06 09:54:15.654767', '2025-08-06 09:54:15.654767') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '通信制大学・夜間大学の体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '通信制大学・夜間大学の体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.0ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('通信制大学・夜間大学の体験談', '働きながら学ぶ人のリアルな声。実際の勉強法や継続のコツなどを共有しましょう。', '#20c997', '2025-08-06 09:54:15.660459', '2025-08-06 09:54:15.660459') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '語学学習法掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '語学学習法掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.0ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('語学学習法掲示板', '英語、韓国語、中国語など、語学学習のコツや教材を共有しましょう。', '#17a2b8', '2025-08-06 09:54:15.663023', '2025-08-06 09:54:15.663023') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '試験前の応援・雑談板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "categories" WHERE "categories"."name" = '試験前の応援・雑談板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Create (0.0ms)[0m  [1m[32mINSERT INTO "categories" ("name", "description", "color", "created_at", "updated_at") VALUES ('試験前の応援・雑談板', '不安や孤独感を減らす雑談・相談場所。メンタルサポートとしても活用してください。', '#6c757d', '2025-08-06 09:54:15.666713', '2025-08-06 09:54:15.666713') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mPost Count (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '休学・留年体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mPost Create (0.7ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "author_name", "category_id", "anonymous", "created_at", "updated_at") VALUES ('1年間休学して海外留学した体験談', '大学2年生の時に1年間休学して海外留学をしました。最初は不安でしたが、今振り返ると人生で最も貴重な経験だったと思います。
+
+休学を決めた理由、準備期間、留学中の生活、復学後の変化など、詳しく書いていきます。
+
+特に印象的だったのは、異文化での生活を通じて自分の価値観が大きく変わったことです。日本にいた時は気づかなかった日本の良さも、海外に行って初めて実感できました。
+
+復学後は、より積極的に授業に参加するようになり、将来の目標も明確になりました。休学を迷っている人には、ぜひ挑戦することをお勧めします。', '留学経験者', 1, 0, '2025-08-06 09:54:15.715168', '2025-08-06 09:54:15.715168') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (4.5ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '資格勉強法シェア' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mPost Create (0.9ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "author_name", "category_id", "anonymous", "created_at", "updated_at") VALUES ('TOEIC800点取得の勉強法', '3ヶ月でTOEICスコアを600点から800点に上げることができました。以下が私の勉強法です。
+
+【使用教材】
+- 公式問題集
+- 単語帳（金のフレーズ）
+- リスニングアプリ
+
+【勉強スケジュール】
+- 朝：30分リスニング
+- 昼：1時間リーディング
+- 夜：30分単語学習
+
+【ポイント】
+1. 毎日継続することが重要
+2. 間違えた問題は必ず復習
+3. 本番と同じ時間配分で練習
+
+特に効果的だったのは、毎日少しずつでも継続することです。まとめて勉強するよりも、毎日コツコツと続ける方が記憶に定着しやすかったです。', '英語学習者', 2, 0, '2025-08-06 09:54:15.785367', '2025-08-06 09:54:15.785367') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mComment Create (0.7ms)[0m  [1m[32mINSERT INTO "comments" ("content", "author_name", "post_id", "anonymous", "created_at", "updated_at") VALUES ('とても参考になりました！私も同じ教材を使ってみようと思います。', 'TOEIC受験予定者', 2, 0, '2025-08-06 09:54:15.819604', '2025-08-06 09:54:15.819604') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = 'ゼミ・研究室の実態掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mPost Create (0.5ms)[0m  [1m[32mINSERT INTO "posts" ("title", "content", "author_name", "category_id", "anonymous", "created_at", "updated_at") VALUES ('〇〇大学△△研究室の実態', '現在〇〇大学の△△研究室に所属しています。
+
+【研究室の雰囲気】
+- 教授はとても親切で、質問しやすい環境
+- 先輩後輩の関係も良好
+- 週1回のゼミは緊張するが、勉強になる
+
+【忙しさ】
+- 3年生：週2回のゼミ参加
+- 4年生：卒論執筆で忙しい
+- 夏休みは研究合宿あり
+
+【教授の人柄】
+- 厳しいが公平
+- 学生の意見をよく聞いてくれる
+- 研究熱心で情熱的
+
+全体的に満足していますが、研究が好きでない人には少し厳しいかもしれません。', '', 3, 1, '2025-08-06 09:54:15.825222', '2025-08-06 09:54:15.825222') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mBEGIN immediate TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mComment Create (0.6ms)[0m  [1m[32mINSERT INTO "comments" ("content", "author_name", "post_id", "anonymous", "created_at", "updated_at") VALUES ('詳しい情報をありがとうございます。参考になります。', '', 3, 1, '2025-08-06 09:54:15.829794', '2025-08-06 09:54:15.829794') RETURNING "id" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[35mCOMMIT TRANSACTION /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "categories" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" /*application='SchoolBulletinBoard'*/[0m
+Started GET "/" for ::1 at 2025-08-06 19:00:03 +0900
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.8ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 108.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 141.1ms | GC: 10.1ms)
+Completed 200 OK in 270ms (Views: 140.6ms | ActiveRecord: 7.7ms (17 queries, 0 cached) | GC: 10.1ms)
+
+
+Started GET "/assets/application-231c63cf.css" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/assets/stimulus.min-4b1e420e.js" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/assets/stimulus-loading-1fc53fe7.js" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/assets/application-bfcdf840.js" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/assets/turbo.min-3a2e143f.js" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/assets/controllers/application-3affb389.js" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/assets/controllers/hello_controller-708796bd.js" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/assets/controllers/index-ee64e1f1.js" for ::1 at 2025-08-06 19:00:04 +0900
+Started GET "/" for ::1 at 2025-08-06 19:00:39 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (2.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 46.6ms | GC: 2.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 75.8ms | GC: 3.6ms)
+Completed 200 OK in 125ms (Views: 73.4ms | ActiveRecord: 3.2ms (17 queries, 0 cached) | GC: 3.6ms)
+
+
+Started GET "/posts/3" for ::1 at 2025-08-06 19:00:43 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:6
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:36
+  [1m[36mComment Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:38
+  [1m[36mComment Load (0.5ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = 3 ORDER BY "comments"."created_at" DESC /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:39
+  Rendered posts/show.html.erb within layouts/application (Duration: 35.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 37.0ms | GC: 0.0ms)
+Completed 200 OK in 93ms (Views: 36.8ms | ActiveRecord: 0.7ms (5 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/categories/1" for ::1 at 2025-08-06 19:00:48 +0900
+Processing by CategoriesController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/controllers/categories_controller.rb:7:in 'CategoriesController#show'
+  Rendering layout layouts/application.html.erb
+  Rendering categories/show.html.erb within layouts/application
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:20
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" WHERE "posts"."category_id" = 1 LIMIT 1 OFFSET 0 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:29
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."category_id" = 1 ORDER BY "posts"."created_at" DESC LIMIT 20 OFFSET 0 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:30
+  [1m[36mComment Load (0.0ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = 1 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:30
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:50
+  Rendered categories/show.html.erb within layouts/application (Duration: 30.2ms | GC: 10.7ms)
+  Rendered layout layouts/application.html.erb (Duration: 31.9ms | GC: 11.0ms)
+Completed 200 OK in 76ms (Views: 34.0ms | ActiveRecord: 0.4ms (6 queries, 0 cached) | GC: 11.0ms)
+
+
+Started GET "/categories/9" for ::1 at 2025-08-06 19:01:02 +0900
+Processing by CategoriesController#show as HTML
+  Parameters: {"id" => "9"}
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 9 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/controllers/categories_controller.rb:7:in 'CategoriesController#show'
+  Rendering layout layouts/application.html.erb
+  Rendering categories/show.html.erb within layouts/application
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:20
+  [1m[36mPost Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" WHERE "posts"."category_id" = 9 LIMIT 1 OFFSET 0 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:29
+  Rendered categories/show.html.erb within layouts/application (Duration: 7.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.3ms | GC: 0.3ms)
+Completed 200 OK in 55ms (Views: 9.6ms | ActiveRecord: 0.2ms (3 queries, 0 cached) | GC: 0.3ms)
+
+
+Started GET "/posts/3" for ::1 at 2025-08-06 20:59:14 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mPost Load (4.3ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:6
+  [1m[36mComment Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:36
+  [1m[36mComment Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:38
+  [1m[36mComment Load (0.3ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = 3 ORDER BY "comments"."created_at" DESC /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:39
+  Rendered posts/show.html.erb within layouts/application (Duration: 16.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 17.9ms | GC: 0.0ms)
+Completed 200 OK in 99ms (Views: 17.8ms | ActiveRecord: 5.3ms (5 queries, 0 cached) | GC: 1.4ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 21:17:19 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (6.3ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.5ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (2.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 69.7ms | GC: 0.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 77.6ms | GC: 1.6ms)
+Completed 200 OK in 182ms (Views: 67.9ms | ActiveRecord: 10.7ms (17 queries, 0 cached) | GC: 1.6ms)
+
+
+Started GET "/posts/3" for ::1 at 2025-08-06 23:39:08 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mPost Load (12.9ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:6
+  [1m[36mComment Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:36
+  [1m[36mComment Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:38
+  [1m[36mComment Load (0.5ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = 3 ORDER BY "comments"."created_at" DESC /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:39
+  Rendered posts/show.html.erb within layouts/application (Duration: 46.9ms | GC: 1.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 50.2ms | GC: 1.8ms)
+Completed 200 OK in 168ms (Views: 53.7ms | ActiveRecord: 14.1ms (5 queries, 0 cached) | GC: 1.8ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-06 23:39:10 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:8
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  Rendered categories/index.html.erb within layouts/application (Duration: 27.1ms | GC: 3.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 34.0ms | GC: 3.6ms)
+Completed 200 OK in 99ms (Views: 33.7ms | ActiveRecord: 0.6ms (11 queries, 0 cached) | GC: 3.6ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 23:39:11 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 19.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 23.4ms | GC: 0.0ms)
+Completed 200 OK in 89ms (Views: 24.0ms | ActiveRecord: 1.4ms (17 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-06 23:39:13 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:8
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  Rendered categories/index.html.erb within layouts/application (Duration: 10.2ms | GC: 1.7ms)
+  Rendered layout layouts/application.html.erb (Duration: 14.4ms | GC: 1.7ms)
+Completed 200 OK in 134ms (Views: 14.5ms | ActiveRecord: 0.5ms (11 queries, 0 cached) | GC: 32.7ms)
+
+
+Started GET "/categories/3" for ::1 at 2025-08-06 23:39:54 +0900
+Processing by CategoriesController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mCategory Load (0.3ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/controllers/categories_controller.rb:7:in 'CategoriesController#show'
+  Rendering layout layouts/application.html.erb
+  Rendering categories/show.html.erb within layouts/application
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:20
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" WHERE "posts"."category_id" = 3 LIMIT 1 OFFSET 0 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:29
+  [1m[36mPost Load (0.7ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."category_id" = 3 ORDER BY "posts"."created_at" DESC LIMIT 20 OFFSET 0 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:30
+  [1m[36mComment Load (0.0ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:30
+  [1m[36mComment Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:50
+  Rendered categories/show.html.erb within layouts/application (Duration: 15.3ms | GC: 1.1ms)
+  Rendered layout layouts/application.html.erb (Duration: 18.5ms | GC: 1.1ms)
+Completed 200 OK in 93ms (Views: 18.4ms | ActiveRecord: 1.4ms (6 queries, 0 cached) | GC: 1.1ms)
+
+
+Started GET "/posts/3" for ::1 at 2025-08-06 23:40:12 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mPost Load (0.6ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.3ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:6
+  [1m[36mComment Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:36
+  [1m[36mComment Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:38
+  [1m[36mComment Load (0.2ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = 3 ORDER BY "comments"."created_at" DESC /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:39
+  Rendered posts/show.html.erb within layouts/application (Duration: 58.3ms | GC: 2.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 64.2ms | GC: 2.2ms)
+Completed 200 OK in 226ms (Views: 66.6ms | ActiveRecord: 1.5ms (5 queries, 0 cached) | GC: 2.2ms)
+
+
+Started GET "/posts/3" for ::1 at 2025-08-06 23:40:13 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "3"}
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:6
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:36
+  [1m[36mComment Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 3 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:38
+  [1m[36mComment Load (0.0ms)[0m  [1m[34mSELECT "comments".* FROM "comments" WHERE "comments"."post_id" = 3 ORDER BY "comments"."created_at" DESC /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:39
+  Rendered posts/show.html.erb within layouts/application (Duration: 12.5ms | GC: 1.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 13.9ms | GC: 1.2ms)
+Completed 200 OK in 85ms (Views: 14.9ms | ActiveRecord: 0.3ms (5 queries, 0 cached) | GC: 1.2ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-06 23:40:32 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:8
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  Rendered categories/index.html.erb within layouts/application (Duration: 13.6ms | GC: 0.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 24.0ms | GC: 0.6ms)
+Completed 200 OK in 106ms (Views: 31.2ms | ActiveRecord: 0.6ms (11 queries, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 23:40:35 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.4ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.6ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 27.3ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 35.5ms | GC: 0.0ms)
+Completed 200 OK in 100ms (Views: 34.9ms | ActiveRecord: 2.3ms (17 queries, 0 cached) | GC: 1.7ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 23:40:35 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 47.5ms | GC: 25.9ms)
+  Rendered layout layouts/application.html.erb (Duration: 49.1ms | GC: 25.9ms)
+Completed 200 OK in 116ms (Views: 48.6ms | ActiveRecord: 0.8ms (17 queries, 0 cached) | GC: 25.9ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 23:40:35 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 19.4ms | GC: 1.9ms)
+  Rendered layout layouts/application.html.erb (Duration: 20.3ms | GC: 1.9ms)
+Completed 200 OK in 81ms (Views: 19.0ms | ActiveRecord: 1.5ms (17 queries, 0 cached) | GC: 1.9ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-06 23:40:37 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:8
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  Rendered categories/index.html.erb within layouts/application (Duration: 8.6ms | GC: 0.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 9.7ms | GC: 0.4ms)
+Completed 200 OK in 71ms (Views: 10.1ms | ActiveRecord: 0.5ms (11 queries, 0 cached) | GC: 1.0ms)
+
+
+Started GET "/categories/5" for ::1 at 2025-08-06 23:40:40 +0900
+Processing by CategoriesController#show as HTML
+  Parameters: {"id" => "5"}
+  [1m[36mCategory Load (0.3ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 5 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/controllers/categories_controller.rb:7:in 'CategoriesController#show'
+  Rendering layout layouts/application.html.erb
+  Rendering categories/show.html.erb within layouts/application
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:20
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" WHERE "posts"."category_id" = 5 LIMIT 1 OFFSET 0 /*action='show',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/show.html.erb:29
+  Rendered categories/show.html.erb within layouts/application (Duration: 8.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 11.9ms | GC: 0.5ms)
+Completed 200 OK in 95ms (Views: 13.5ms | ActiveRecord: 0.5ms (3 queries, 0 cached) | GC: 0.5ms)
+
+
+Started GET "/" for ::1 at 2025-08-06 23:41:01 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mPost Exists? (0.4ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:15
+  [1m[36mPost Load (0.8ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mCategory Load (0.6ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:16
+  [1m[36mComment Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mComment Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:37
+  [1m[36mCategory Load (1.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:53
+  [1m[36mPost Count (19.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (4.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (1.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:64
+  Rendered home/index.html.erb within layouts/application (Duration: 229.2ms | GC: 4.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 282.1ms | GC: 4.8ms)
+Completed 200 OK in 415ms (Views: 254.0ms | ActiveRecord: 32.1ms (17 queries, 0 cached) | GC: 4.8ms)
+
+
+Started GET "/posts/1" for ::1 at 2025-08-06 23:41:09 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mPost Load (1.0ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.5ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:6
+  [1m[36mComment Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:36
+  [1m[36mComment Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:38
+  Rendered posts/show.html.erb within layouts/application (Duration: 41.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 47.0ms | GC: 0.0ms)
+Completed 200 OK in 231ms (Views: 47.0ms | ActiveRecord: 2.1ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/posts/1" for ::1 at 2025-08-06 23:41:12 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:6
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:36
+  [1m[36mComment Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:38
+  Rendered posts/show.html.erb within layouts/application (Duration: 7.8ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 22.0ms | GC: 0.0ms)
+Completed 200 OK in 178ms (Views: 23.0ms | ActiveRecord: 0.5ms (4 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-06 23:41:32 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (1.5ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:8
+  [1m[36mPost Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:20
+  Rendered categories/index.html.erb within layouts/application (Duration: 42.0ms | GC: 20.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 50.6ms | GC: 20.4ms)
+Completed 200 OK in 146ms (Views: 48.8ms | ActiveRecord: 2.9ms (11 queries, 0 cached) | GC: 20.4ms)
+
+
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '休学・留年体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '資格勉強法シェア' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = 'ゼミ・研究室の実態掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '履修相談掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (2.3ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '就職活動・インターン経験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '大学編入・大学院進学体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '学習障害・発達特性×学び' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '通信制大学・夜間大学の体験談' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '語学学習法掲示板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."name" = '試験前の応援・雑談板' LIMIT 1 /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mPost Count (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCategory Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "categories" /*application='SchoolBulletinBoard'*/[0m
+  [1m[36mCACHE Post Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts"[0m
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" /*application='SchoolBulletinBoard'*/[0m
+Started GET "/" for ::1 at 2025-08-19 01:43:08 +0900
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.5ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 97.1ms | GC: 1.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 122.2ms | GC: 1.6ms)
+Completed 200 OK in 233ms (Views: 119.6ms | ActiveRecord: 6.8ms (17 queries, 0 cached) | GC: 9.9ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 01:43:14 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 44.4ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 46.0ms | GC: 0.0ms)
+Completed 200 OK in 91ms (Views: 45.9ms | ActiveRecord: 0.9ms (17 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/assets/turbo.min-3a2e143f.js" for ::1 at 2025-08-19 01:43:14 +0900
+Started GET "/assets/stimulus.min-4b1e420e.js" for ::1 at 2025-08-19 01:43:14 +0900
+Started GET "/categories" for ::1 at 2025-08-19 01:43:39 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:13
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  Rendered categories/index.html.erb within layouts/application (Duration: 24.2ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 25.7ms | GC: 0.0ms)
+Completed 200 OK in 67ms (Views: 25.8ms | ActiveRecord: 0.4ms (11 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-19 01:43:41 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:13
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  Rendered categories/index.html.erb within layouts/application (Duration: 4.7ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 5.6ms | GC: 0.0ms)
+Completed 200 OK in 50ms (Views: 7.7ms | ActiveRecord: 0.3ms (11 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 01:43:46 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 20.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 23.3ms | GC: 0.0ms)
+Completed 200 OK in 65ms (Views: 23.1ms | ActiveRecord: 0.8ms (17 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 01:44:15 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 24.4ms | GC: 13.8ms)
+  Rendered layout layouts/application.html.erb (Duration: 25.3ms | GC: 13.8ms)
+Completed 200 OK in 69ms (Views: 25.0ms | ActiveRecord: 0.9ms (17 queries, 0 cached) | GC: 13.8ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 01:44:16 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.5ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 10.3ms | GC: 1.6ms)
+  Rendered layout layouts/application.html.erb (Duration: 14.9ms | GC: 1.6ms)
+Completed 200 OK in 64ms (Views: 14.3ms | ActiveRecord: 0.9ms (17 queries, 0 cached) | GC: 1.6ms)
+
+
+Started HEAD "/" for ::1 at 2025-08-19 02:21:38 +0900
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='SchoolBulletinBoard'*/[0m
+Processing by HomeController#index as */*
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.4ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.3ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.2ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 85.9ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 106.9ms | GC: 0.0ms)
+Completed 200 OK in 206ms (Views: 104.8ms | ActiveRecord: 6.2ms (17 queries, 0 cached) | GC: 1.6ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 02:21:40 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 42.6ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 47.3ms | GC: 0.0ms)
+Completed 200 OK in 93ms (Views: 47.3ms | ActiveRecord: 0.6ms (17 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 02:35:50 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (2.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 55.1ms | GC: 0.4ms)
+  Rendered layout layouts/application.html.erb (Duration: 63.8ms | GC: 0.4ms)
+Completed 200 OK in 152ms (Views: 61.7ms | ActiveRecord: 3.0ms (17 queries, 0 cached) | GC: 29.9ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 02:35:51 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 13.6ms | GC: 0.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 14.8ms | GC: 0.2ms)
+Completed 200 OK in 69ms (Views: 17.1ms | ActiveRecord: 0.3ms (17 queries, 0 cached) | GC: 0.4ms)
+
+
+Started GET "/" for ::1 at 2025-08-19 11:56:08 +0900
+Processing by HomeController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering home/index.html.erb within layouts/application
+  [1m[36mCategory Load (5.3ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:27
+  [1m[36mPost Exists? (0.2ms)[0m  [1m[34mSELECT 1 AS one FROM "posts" LIMIT 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:48
+  [1m[36mPost Load (0.1ms)[0m  [1m[34mSELECT "posts".* FROM "posts" ORDER BY "posts"."created_at" DESC LIMIT 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mCategory Load (0.0ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" IN (3, 2, 1) /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:49
+  [1m[36mComment Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:79
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='home'*/[0m
+  ↳ app/views/home/index.html.erb:116
+  Rendered home/index.html.erb within layouts/application (Duration: 47.0ms | GC: 20.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 51.9ms | GC: 20.0ms)
+Completed 200 OK in 128ms (Views: 47.0ms | ActiveRecord: 5.9ms (17 queries, 0 cached) | GC: 20.0ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-19 11:56:12 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:13
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  Rendered categories/index.html.erb within layouts/application (Duration: 16.1ms | GC: 0.7ms)
+  Rendered layout layouts/application.html.erb (Duration: 17.9ms | GC: 1.2ms)
+Completed 200 OK in 79ms (Views: 18.5ms | ActiveRecord: 0.4ms (11 queries, 0 cached) | GC: 1.2ms)
+
+
+Started GET "/posts/1" for ::1 at 2025-08-19 11:56:46 +0900
+Processing by PostsController#show as HTML
+  Parameters: {"id" => "1"}
+  [1m[36mPost Load (0.5ms)[0m  [1m[34mSELECT "posts".* FROM "posts" WHERE "posts"."id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/controllers/posts_controller.rb:47:in 'PostsController#set_post'
+  Rendering layout layouts/application.html.erb
+  Rendering posts/show.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" WHERE "categories"."id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:9
+  [1m[36mComment Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "comments" WHERE "comments"."post_id" = 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:71
+  [1m[36mComment Exists? (0.0ms)[0m  [1m[34mSELECT 1 AS one FROM "comments" WHERE "comments"."post_id" = 1 LIMIT 1 /*action='show',application='SchoolBulletinBoard',controller='posts'*/[0m
+  ↳ app/views/posts/show.html.erb:74
+  Rendered posts/show.html.erb within layouts/application (Duration: 31.1ms | GC: 0.0ms)
+  Rendered layout layouts/application.html.erb (Duration: 32.4ms | GC: 0.2ms)
+Completed 200 OK in 107ms (Views: 33.7ms | ActiveRecord: 0.6ms (4 queries, 0 cached) | GC: 0.6ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-19 11:57:24 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.1ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:13
+  [1m[36mPost Count (0.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  Rendered categories/index.html.erb within layouts/application (Duration: 5.8ms | GC: 0.2ms)
+  Rendered layout layouts/application.html.erb (Duration: 8.0ms | GC: 0.2ms)
+Completed 200 OK in 73ms (Views: 10.9ms | ActiveRecord: 0.3ms (11 queries, 0 cached) | GC: 0.2ms)
+
+
+Started GET "/categories" for ::1 at 2025-08-19 11:57:26 +0900
+Processing by CategoriesController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering categories/index.html.erb within layouts/application
+  [1m[36mCategory Load (0.2ms)[0m  [1m[34mSELECT "categories".* FROM "categories" /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:13
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 1 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 2 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 3 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 4 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 5 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 6 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 7 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 8 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 9 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  [1m[36mPost Count (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "posts" WHERE "posts"."category_id" = 10 /*action='index',application='SchoolBulletinBoard',controller='categories'*/[0m
+  ↳ app/views/categories/index.html.erb:26
+  Rendered categories/index.html.erb within layouts/application (Duration: 7.6ms | GC: 0.3ms)
+  Rendered layout layouts/application.html.erb (Duration: 8.6ms | GC: 0.3ms)
+Completed 200 OK in 65ms (Views: 8.5ms | ActiveRecord: 0.4ms (11 queries, 0 cached) | GC: 0.3ms)
+
+

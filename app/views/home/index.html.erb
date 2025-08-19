@@ -1,0 +1,126 @@
+<div class="hero-section fade-in-up">
+  <div class="hero-content">
+    <h1>学校・学習掲示板</h1>
+    <p class="lead">学生生活や学習に関する悩み、体験談、アドバイスを共有しましょう</p>
+    <hr class="my-4">
+    <p>匿名での投稿も可能です。安心して投稿してください。</p>
+    <div class="mt-4">
+      <%= link_to "📝 投稿を始める", categories_path, class: "btn btn-light btn-lg me-3" %>
+      <%= link_to "📚 カテゴリを見る", categories_path, class: "btn btn-outline-light btn-lg" %>
+    </div>
+  </div>
+</div>
+
+<!-- 検索セクション -->
+<div class="card mb-4 fade-in-up">
+  <div class="card-body">
+    <h3 class="card-title">
+      <i class="fas fa-search text-primary me-2"></i>
+      投稿を検索
+    </h3>
+    <%= form_with url: search_path, method: :get, local: true, class: "row g-3" do |f| %>
+      <div class="col-md-6">
+        <%= f.text_field :q, class: "form-control", placeholder: "キーワードを入力..." %>
+      </div>
+      <div class="col-md-4">
+        <%= f.select :category_id, 
+            options_from_collection_for_select(@categories, :id, :name), 
+            { prompt: "カテゴリを選択" }, 
+            { class: "form-select" } %>
+      </div>
+      <div class="col-md-2">
+        <%= f.submit "🔍 検索", class: "btn btn-primary w-100" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">
+        <i class="fas fa-fire text-danger"></i>
+        最新の投稿
+      </h2>
+      <%= link_to "すべて見る", categories_path, class: "btn btn-outline-primary btn-sm" %>
+    </div>
+    
+    <% if @recent_posts.any? %>
+      <% @recent_posts.each do |post| %>
+        <div class="post-card fade-in-up">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-start">
+              <h5 class="card-title">
+                <%= link_to post.title, post_path(post) %>
+              </h5>
+              <% if post.anonymous? %>
+                <span class="anonymous-badge">
+                  <i class="fas fa-user-secret me-1"></i>匿名
+                </span>
+              <% end %>
+            </div>
+            <p class="card-text">
+              <%= truncate(post.content, length: 150) %>
+            </p>
+            <div class="post-meta">
+              <div class="d-flex align-items-center">
+                <i class="fas fa-user me-2 text-muted"></i>
+                <span class="text-muted">
+                  <%= post.anonymous? ? "匿名" : post.author_name %> | 
+                  <i class="fas fa-folder me-1"></i>
+                  <%= post.category.name %> | 
+                  <i class="fas fa-clock me-1"></i>
+                  <%= post.created_at.strftime("%Y/%m/%d %H:%M") %>
+                </span>
+              </div>
+              <div class="d-flex align-items-center">
+                <i class="fas fa-comments me-1 text-muted"></i>
+                <span class="text-muted">
+                  <%= pluralize(post.comments.count, "コメント") %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="alert alert-info fade-in-up">
+        <i class="fas fa-info-circle me-2"></i>
+        まだ投稿がありません。最初の投稿をしてみませんか？
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-md-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">
+        <i class="fas fa-th-large text-primary"></i>
+        カテゴリ
+      </h2>
+    </div>
+    
+    <div class="row">
+      <% @categories.each do |category| %>
+        <div class="col-12 mb-3">
+          <div class="category-card fade-in-up">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= link_to category.name, category_path(category), class: "text-decoration-none" %>
+              </h5>
+              <p class="card-text">
+                <%= truncate(category.description, length: 100) %>
+              </p>
+              <div class="category-stats">
+                <span class="text-muted">
+                  <i class="fas fa-file-alt me-1"></i>
+                  <%= pluralize(category.posts.count, "投稿") %>
+                </span>
+                <%= link_to "見る", category_path(category), class: "btn btn-primary btn-sm" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
